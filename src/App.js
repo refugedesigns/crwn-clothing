@@ -40,7 +40,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div>
         <Header />
         <Routes>
           <Route path="/" element={<Homepage />} />
