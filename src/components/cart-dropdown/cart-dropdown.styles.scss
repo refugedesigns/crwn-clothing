@@ -16,6 +16,18 @@
         display: flex;
         flex-direction: column;
         overflow: auto;
+
+
+        .empty-message {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: large;
+        }
+    }
+
+    .empty-cart {
+        justify-content: center;
     }
 
     button {
