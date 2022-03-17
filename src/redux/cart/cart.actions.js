@@ -20,3 +20,7 @@ export const decreaseItemQuantity = item => ({
     payload: item
 })
 
+export const resetCart = () => ({
+    type: CartActionTypes.RESET_CART
+})
+
