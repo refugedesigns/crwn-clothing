@@ -15,11 +15,13 @@ import { auth, createUserProfileDocument } from "./firebase/firebase.config";
 
 import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
+
 class App extends Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
     const { setCurrentUser } = this.props;
+    
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);

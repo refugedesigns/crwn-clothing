@@ -3,11 +3,13 @@ import Directory from "../../components/Directory/Directory";
 
 import "./homepage.styles.scss";
 
+import { HomePageComponent } from "./homepage.styles";
+
 const Homepage = () => {
   return (
-    <div className="homepage">
+    <HomePageComponent>
       <Directory />
-    </div>
+    </HomePageComponent>
   );
 };
 
