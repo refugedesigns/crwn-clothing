@@ -1,13 +1,22 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Routes, Route, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
 import CollectionsOverview from "../../components/collections-overview/CollectionsOverview"
-import CategoryPage from "../collection/CollectionPage";
+import CollectionPage from "../collection/CollectionPage";
+import WidthSpinner from "../../components/with-spinner/WithSpinner";
+
 import { firestore, convertCollectionsSnapshotToMap } from "../../firebase/firebase.config";
 import { updateCollections } from "../../redux/shop/shop.actions";
 
+
+
+const CollectionsOverviewWithSpinner = WidthSpinner(CollectionsOverview)
+const CollectionPageWithSpinner = WidthSpinner(CollectionPage)
+
+
 const ShopePage = ({ updateCollections }) => {
+  const [isLoading, setIsLoading] = useState(true)
   const match = useParams()
   const unsubscribeFromSnapshot = useRef(null)
 
@@ -17,14 +26,15 @@ const ShopePage = ({ updateCollections }) => {
     collectionRef.onSnapshot(snapshot => {
       const collections = convertCollectionsSnapshotToMap(snapshot)
       updateCollections(collections)
+      setIsLoading(false)
     })
   }, [updateCollections])
 
   return (
     <div className="shop-page">
       <Routes>
-       <Route path="/" element={<CollectionsOverview />} />
-       <Route path="/:collectionId" element={<CategoryPage match={match} />} />
+       <Route path="/" element={<CollectionsOverviewWithSpinner isLoading={isLoading} />} />
+       <Route path="/:collectionId" element={<CollectionPageWithSpinner isLoading={isLoading} match={match} />} />
       </Routes>
     </div>
   );
