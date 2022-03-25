@@ -1,11 +1,15 @@
 import React, { Component } from "react";
+
+import { connect } from "react-redux";
+
 import FormInput from "../ui-components/form-input/FormInput";
 import CustomButton from "../ui-components/custom-button/CustomButton";
 
 import "./sign-in.styles.scss";
-import { auth, signInWithGoogle } from "../../firebase/firebase.config";
 
-export default class Signin extends Component {
+import { googleSignInStart, emailSignInStart } from "../../redux/user/user.actions";
+
+class Signin extends Component {
   constructor(props) {
     super(props);
 
@@ -17,18 +21,10 @@ export default class Signin extends Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
-
+    const { emailSignInStart } = this.props
     const { email, password } = this.state;
 
-    try {
-      auth.signInWithEmailAndPassword(email, password);
-      this.setState({
-        email: "",
-        password: "",
-      });
-    } catch (error) {
-      console.log(error)
-    }
+    emailSignInStart(email, password)
   };
 
   handleChange = (event) => {
@@ -38,6 +34,7 @@ export default class Signin extends Component {
   };
 
   render() {
+    const { googleSignInStart } = this.props
     return (
       <div className="sign-in">
         <h2>I already have an account</h2>
@@ -60,7 +57,7 @@ export default class Signin extends Component {
           />
           <div className="buttons">
             <CustomButton type="submit">Sign in</CustomButton>
-            <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
+            <CustomButton type="button" onClick={googleSignInStart} isGoogleSignIn>
               Sign in with Google
             </CustomButton>
           </div>
@@ -69,3 +66,10 @@ export default class Signin extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  googleSignInStart: () => dispatch(googleSignInStart()),
+  emailSignInStart: (email, password) => dispatch(emailSignInStart({email, password}))
+});
+
+export default connect(null, mapDispatchToProps) (Signin)
