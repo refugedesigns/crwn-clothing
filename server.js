@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const compression = require("compression")
 
 if (process.env.NODE_ENV !== "production") require("dotenv").config();
 
@@ -10,6 +11,7 @@ const app = express();
 
 const port = process.env.PORT || 5000;
 
+app.use(compression())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
